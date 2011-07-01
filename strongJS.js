@@ -1,5 +1,5 @@
 /**
- * staticJS.js description here
+ * strongJS.js - library for strong typed variables and morph functions in JS
  *
  * @author fridek
  * @date 01.07.11
