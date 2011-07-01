@@ -6,9 +6,9 @@
  * @version $
  */
 
-var staticJS = {};
+var strongJS = {};
 
-(function(staticJS) {
+(function(strongJS) {
     var id = 0;
     var uniqueId = function (obj) {
         if ( typeof obj.__uniqueid == "undefined" ) {
@@ -65,7 +65,7 @@ var staticJS = {};
         return false;
     };
 
-    staticJS.addOption = function(obj, baseFunction, types, optionFunction) {
+    strongJS.addOption = function(obj, baseFunction, types, optionFunction) {
         
         if(obj === null || obj === undefined) {obj = window; }
         if(!(obj instanceof Object)) {throw TypeError("invalid obj type"); }
@@ -87,4 +87,4 @@ var staticJS = {};
         };
     }
 
-}(staticJS));
+}(strongJS));

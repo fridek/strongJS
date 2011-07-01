@@ -1,7 +1,7 @@
-module("staticJS");
+module("strongJS");
 
 test("1. functions available", function(){
-	equals(typeof staticJS.addOption, "function", "staticJS.addOption is a function");
+	equals(typeof strongJS.addOption, "function", "staticJS.addOption is a function");
 
 });
 
@@ -30,9 +30,9 @@ test("1. init", function(){
         return arg + "_modified";
     };
 
-    staticJS.addOption(window, "fun", ["integer"], funInteger);
-    staticJS.addOption(window, "fun", ["float"], funFloat);
-    staticJS.addOption(window, "fun", ["string"], funString);
+    strongJS.addOption(window, "fun", ["integer"], funInteger);
+    strongJS.addOption(window, "fun", ["float"], funFloat);
+    strongJS.addOption(window, "fun", ["string"], funString);
     notEqual(fun, tmpF, "test function has not changed");
 
     testInteger = fun(testInteger);
