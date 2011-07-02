@@ -52,9 +52,9 @@ var strongJS = {};
 
     var getFunction = function(objectID, baseFunction, args) {
         var types = getArgumentTypes(args),
-            count;
-        var arr = functions[objectID][baseFunction];
-        for(var i = 0; i < arr.length; i++) {
+            count,i,
+            arr = functions[objectID][baseFunction];
+        for(i = 0; i < arr.length; i++) {
             count = 0;
             for(var j = 0; j < types.length; j++)
             {
@@ -62,13 +62,24 @@ var strongJS = {};
             }
             if(count == types.length) return arr[i].fun;
         }
+
+        for(i = 0; i < arr.length; i++) {
+            if(arr[i].types[0] == 'default') return arr[i].fun;
+        }
+
         return false;
     };
 
-    strongJS.addOption = function(obj, baseFunction, types, optionFunction) {
+
+    var addOptionObj = function(obj, baseFunction, types, optionFunction) {
+
+        if(obj === null || obj === undefined) {
+            if(window[baseFunction]) obj = window;
+            else obj = addOptionObj.caller;
+        }  // change to overloading
+        if(!(obj instanceof Object)) {throw TypeError("invalid obj type"); }  // change to overloading
         
-        if(obj === null || obj === undefined) {obj = window; }
-        if(!(obj instanceof Object)) {throw TypeError("invalid obj type"); }
+        if(obj[baseFunction] === undefined) {throw TypeError("invalid function scope - method not accessible"); }
 
         var objectID = uniqueId(obj);
 
@@ -83,8 +94,15 @@ var strongJS = {};
 
         obj[baseFunction] = function () {
             var selected = getFunction(objectID, baseFunction, arguments);
+            if(selected === false) {throw TypeError("no match for arguments and default function not specified"); }
             return selected.apply(obj, arguments);
         };
+    };
+
+    strongJS.addOption = addOptionObj; // change to overloading for null object
+
+    strongJS.addDefault = function(obj, baseFunction, optionFunction) {
+        addOptionObj(obj, baseFunction, ['default'], optionFunction);
     }
 
 }(strongJS));
